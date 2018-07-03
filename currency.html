@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+ <style>
+body  {
+    background-image: url("img1.gif");
+    background-color: lightblue;
+
+}
+</style>
+ 
+ <p id="demo"></p>
+
+</head>
+<body>
+<form name="demo">
+<label for=""><h2>Enter Number:</h2></label>
+<input type="text" name="num"></input><br><br>
+<label for="">Select: </label>&nbsp;
+<select id='currencyType'>
+	<script>
+	 
+	var person = {
+	"USD":"1343.0",
+	"KRW":"122",
+    "JPY":"1230.4",
+    "CZK":"62.972",
+    "NZD":"945.57",
+    "LKR":"8.5072",
+    "SGD":"1,009.1",
+    "KHR":"33.246",
+    "IDR":"9.6283",
+    "LAK":"16.150",
+    "SAR":"358.10",
+    "BDT":"15.851",
+    "EGP":"76.102",
+	"KES":"13.406",
+    "PKR":"11.600",
+    "THB":"42.460",
+    "CHF":"1,346.1",
+    "CNY":"211.37",
+    "NPR":"12.587",
+    "ZAR":"106.34",
+    "EUR":"1,609.3",
+    "BND":"1,014.4",
+    "INR":"20.144",
+    "RUB":"21.178",
+    "KWD":"4,452.0",
+    "AUD":"1,012.6",
+    "DKK":"216.01",
+    "ILS":"370.66",
+    "NOK":"166.38",
+    "SEK":"151.67",
+    "CAD":"1,045.7",
+    "GBP":"1,823.7",
+    "MYR":"341.12",
+    "RSD":"13.624",
+    "BRL":"379.09",
+    "HKD":"171.10",
+    "PHP":"26.000",
+    "VND":"5.8951",
+    "KRW":"124.72"
+
+	
+};
+	var arr = [];
+	arr = Object.keys(person);
+	
+	for (var i = 0; i < arr.length; i++) {
+		// document.write("<select name="+arr[i]+">");
+		document.write("<option value="+arr[i]+">" + arr[i] + "</option>");
+		//console.log(arr[i]);
+	}
+
+    
+</script>
+</select>
+
+<br><br>
+
+ 
+<input type="button" value="result"  onclick="show()"></input>
+<input type="text" name="res"></input>
+
+
+
+
+</form>
+
+<script type="text/javascript">
+function show(){
+
+$.ajax({
+
+	    		url 		: "http://forex.cbm.gov.mm/api/latest",
+
+	    		type 		: "POST",
+
+	    		contentType	: "application/json",
+
+	    		dataType	: "json",
+
+	    		processData : false,
+
+	    		cache		: false,
+
+	    		// data 		: JSON.stringify(myobj)
+
+			}).done(function( msg ) {
+
+                console.log(msg);
+                //console.log('here '+msg['rates'][cur]);
+                var e = document.getElementById("currencyType");
+				var cur = e.options[e.selectedIndex].value;
+				var todayRate = msg['rates'][cur];
+				todayRate = parseFloat(todayRate.replace(/,/g, ''));
+				if (cur === "JPY" || cur === "VND" || cur === "KRW" || cur === "KHR" || cur === "IDR"
+        || cur === "LAK")
+        todayRate = todayRate / 100;
+				var num = parseInt(document.demo.num.value);
+				console.log('num'+num);
+				console.log('todayRate '+todayRate);
+				var resultValue =parseInt(num) * parseInt(todayRate) ;
+				console.log('resultValue '+resultValue);
+				document.demo.res.value = resultValue;
+				//$('#response').html( JSON.stringify(data) );
+
+			});
+
+
+}
+ 
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script>
+
+    
+
+</script>
+
+</body>
+</html>
+
+
+ 
